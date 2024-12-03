@@ -1,0 +1,180 @@
+﻿@model IEnumerable<ConectaCliente.Models.Cliente>
+
+@{
+    ViewData["Title"] = "Dashboard de Clientes";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ajuste o layout conforme necessário
+}
+
+<style>
+    /* Animação do gradiente de fundo */
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    body {
+        background: linear-gradient( 45deg, #0000FF,#6495ED, #4169E1 );
+        background-size: 400% 400%;
+        animation: gradientBG 12s ease infinite;
+        color: #FFFFFF; /* Texto claro para contraste */
+        font-family: 'Roboto', sans-serif;
+    }
+
+    h1, h2 {
+        text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.8);
+        color: #FFFFFF;
+    }
+
+    .card {
+        border: none;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        color: #2d2d2d;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 5px 15px rgba(255, 107, 129, 0.6);
+        }
+
+    .table {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(5px);
+        border-radius: 10px;
+        border: 1px solid #ff758f;
+    }
+
+        .table thead {
+            background-color: #ff758f;
+            color: black;
+            font-size: 1.2rem; /* Tamanho maior para o cabeçalho */
+            font-weight: bold; /* Negrito para o cabeçalho */
+        }
+
+        .table td img {
+            max-width: 200px;
+            max-height: 200px;
+        }
+
+    .table tbody td {
+        color: black; /* Define o texto das células da tabela para preto */
+        font-size: 16px; /* Ajuste o tamanho da fonte conforme necessário */
+        font-weight: bold; /* Negrito para o corpo */
+        line-height: 1.5; /* Define o espaçamento entre as linhas */
+        padding: 10px; /* Adiciona espaço interno em torno do conteúdo */
+    }
+
+    .btn {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+    .btn-light {
+        background-color: #00FF00;
+        color: white;
+    }
+
+        .btn-light:hover {
+            background-color: #00BFFF;
+        }
+
+    .btn-info {
+        background-color: #4caf50;
+        color: white;
+    }
+
+        .btn-info:hover {
+            background-color: #388e3c;
+        }
+
+    .btn-warning {
+        background-color: #ffeb3b;
+        color: #2d2d2d;
+    }
+
+        .btn-warning:hover {
+            background-color: #fbc02d;
+        }
+
+    .btn-danger {
+        background-color: #e53935;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background-color: #b71c1c;
+        }
+
+    .foto-cliente {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #ff758f;
+    }
+</style>
+
+
+
+<div class="container mt-5">
+    <h1 class="text-center fw-bold mb-5">Bem vindo a Conecta Cliente. </h1>
+
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Relação de Clientes</h2>
+        <a asp-action="Create" class="btn btn-light btn-lg shadow-sm">
+            <i class="bi bi-plus-circle"></i> Adicionar Cliente
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle text-white">
+            <thead class="table-light text-dark">
+                <tr>
+                    <th>Foto</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>                    
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cliente in Model)
+                {
+                    <tr>
+                        <td>
+                                <img src="@cliente.FotoCliente" alt="@cliente.Nome" class="foto-cliente" />
+                        </td>
+                        <td>@cliente.Nome</td>
+                        <td>@cliente.Email</td>                        
+                        <td class="text-center">
+                            <a asp-action="Details" asp-route-id="@cliente.Id" class="btn btn-info btn-sm mx-1">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@cliente.Id" class="btn btn-warning btn-sm mx-1">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@cliente.Id" class="btn btn-danger btn-sm mx-1">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
